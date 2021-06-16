@@ -1,4 +1,3 @@
-
 import "./App.css";
 import { useState } from "react";
 import Toast from "./helpers/swalToast";
@@ -8,7 +7,6 @@ function App() {
 
   const search = (e) => {
     e.preventDefault();
-    console.log("masuk");
     fetch(`https://api.github.com/users/${user}/repos`, {
       method: "GET",
     })
@@ -49,7 +47,7 @@ function App() {
       </div>
       {data ? (
         <div className="table_container">
-          <table className="table table-bordered">
+          <table className="table table-light table-bordered">
             <thead>
               <tr>
                 <th scope="col">Owner</th>
