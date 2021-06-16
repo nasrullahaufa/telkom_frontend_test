@@ -4,20 +4,26 @@ import { useState, useEffect } from "react";
 
 function App() {
   const [user, setUser] = useState("");
+  const [data, setData] = useState("");
 
-  const search = (e) =>{
-    e.preventDefault()
-    console.log('masuk')
+  const search = (e) => {
+    e.preventDefault();
+    console.log("masuk");
     fetch(`https://api.github.com/users/${user}/repos`, {
-      method: 'GET'
+      method: "GET",
     })
-    .then((response) =>{
-      return response.json()
-    })
-    .then((result)=>{
-    
-    })
-  }
+      .then((response) => {
+        return response.json();
+      })
+      .then((result) => {
+        console.log(result.message);
+        if (result.message == "Not Found") {
+          setData("")
+        } else {
+          setData(result);
+        }
+      });
+  };
   return (
     <div className="main-container">
       <div className="form_container">
@@ -37,37 +43,34 @@ function App() {
           </button>
         </form>
       </div>
-      <div className="table_container">
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td colspan="2">Larry the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {data ? (
+        <div className="table_container">
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Owner</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">URL</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((repo, i) => {
+                return (
+                  <tr>
+                    <th scope="row">{repo.owner.login}</th>
+                    <td>{repo.name}</td>
+                    <td>{repo.description}</td>
+                    <td>
+                      <a href={repo.html_url}>{repo.html_url}</a>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      ) : null}
     </div>
   );
 }
