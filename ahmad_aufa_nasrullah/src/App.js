@@ -1,7 +1,7 @@
-import logo from "./logo.svg";
-import "./App.css";
-import { useState, useEffect } from "react";
 
+import "./App.css";
+import { useState } from "react";
+import Toast from "./helpers/swalToast";
 function App() {
   const [user, setUser] = useState("");
   const [data, setData] = useState("");
@@ -18,7 +18,11 @@ function App() {
       .then((result) => {
         console.log(result.message);
         if (result.message == "Not Found") {
-          setData("")
+          Toast.fire({
+            icon: "error",
+            title: "User not found",
+          });
+          setData("");
         } else {
           setData(result);
         }
