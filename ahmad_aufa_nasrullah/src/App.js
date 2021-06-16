@@ -15,7 +15,7 @@ function App() {
       return response.json()
     })
     .then((result)=>{
-      console.log(result)
+    
     })
   }
   return (
